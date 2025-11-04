@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Train - Travel Booking System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>✈️ TravelEase</h1>
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </nav>
+        </header>
+
+        <main class="page-content">
+            <div class="page-header">
+                <h2>Book Train</h2>
+            </div>
+
+            <div class="search-section">
+                <form id="trainSearchForm" onsubmit="searchTrains(event)">
+                    <div class="search-grid">
+                        <div class="form-group">
+                            <label for="trainOrigin">From</label>
+                            <input type="text" id="trainOrigin" placeholder="Station" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="trainDestination">To</label>
+                            <input type="text" id="trainDestination" placeholder="Station" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="trainDepartureDate">Departure Date</label>
+                            <input type="date" id="trainDepartureDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="trainPassengers">Passengers</label>
+                            <input type="number" id="trainPassengers" min="1" value="1" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Search Trains</button>
+                </form>
+            </div>
+
+            <div class="results-section" id="trainResults">
+                <!-- Train results will be displayed here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/bookings.js"></script>
+</body>
+</html>

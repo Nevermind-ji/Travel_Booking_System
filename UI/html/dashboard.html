@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Travel Booking System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>✈️ TravelEase</h1>
+            </div>
+            <nav class="nav">
+                <span id="userName" class="user-name">Welcome, User!</span>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </nav>
+        </header>
+
+        <main class="dashboard">
+            <div class="dashboard-header">
+                <h2>Travel Dashboard</h2>
+                <p>Manage your bookings, groups, and travel plans</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card" onclick="window.location.href='groups.html'">
+                    <div class="card-icon">👥</div>
+                    <h3>Manage Groups</h3>
+                    <p>Create and manage co-traveller groups</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='book-flight.html'">
+                    <div class="card-icon">✈️</div>
+                    <h3>Book Flight</h3>
+                    <p>Search and book flights</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='book-train.html'">
+                    <div class="card-icon">🚂</div>
+                    <h3>Book Train</h3>
+                    <p>Search and book train tickets</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='book-bus.html'">
+                    <div class="card-icon">🚌</div>
+                    <h3>Book Bus</h3>
+                    <p>Search and book bus tickets</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='book-hotel.html'">
+                    <div class="card-icon">🏨</div>
+                    <h3>Book Hotel</h3>
+                    <p>Search and book hotels</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='book-activity.html'">
+                    <div class="card-icon">🎯</div>
+                    <h3>Book Activity</h3>
+                    <p>Browse and book activities</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='packages.html'">
+                    <div class="card-icon">📦</div>
+                    <h3>Travel Packages</h3>
+                    <p>Browse pre-made travel packages</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='custom-package.html'">
+                    <div class="card-icon">🛠️</div>
+                    <h3>Build Custom Package</h3>
+                    <p>Create your own travel package</p>
+                </div>
+
+                <div class="dashboard-card" onclick="window.location.href='my-bookings.html'">
+                    <div class="card-icon">📋</div>
+                    <h3>My Bookings</h3>
+                    <p>View and manage your bookings</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

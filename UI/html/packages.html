@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Packages - Travel Booking System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>✈️ TravelEase</h1>
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </nav>
+        </header>
+
+        <main class="page-content">
+            <div class="page-header">
+                <h2>Travel Packages</h2>
+                <p>Browse our curated travel packages</p>
+            </div>
+
+            <div class="search-section">
+                <form id="packageSearchForm" onsubmit="searchPackages(event)">
+                    <div class="search-grid">
+                        <div class="form-group">
+                            <label for="packageBudget">Max Budget</label>
+                            <input type="number" id="packageBudget" placeholder="₹" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="packageDuration">Duration (Days)</label>
+                            <input type="number" id="packageDuration" min="1" placeholder="Any">
+                        </div>
+                        <div class="form-group">
+                            <label for="packageSort">Sort By</label>
+                            <select id="packageSort">
+                                <option value="popularity">Popularity</option>
+                                <option value="rating">Rating</option>
+                                <option value="price_low">Price: Low to High</option>
+                                <option value="price_high">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Search Packages</button>
+                </form>
+            </div>
+
+            <div class="packages-grid" id="packagesList">
+                <!-- Packages will be displayed here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/packages.js"></script>
+</body>
+</html>

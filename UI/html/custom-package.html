@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Custom Package - Travel Booking System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>✈️ TravelEase</h1>
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </nav>
+        </header>
+
+        <main class="page-content">
+            <div class="page-header">
+                <h2>Build Custom Package</h2>
+                <p>Create your own travel package by selecting services</p>
+            </div>
+
+            <div class="custom-package-container">
+                <div class="package-builder">
+                    <div class="builder-tabs">
+                        <button class="tab-btn active" onclick="switchTab('flight', this)">Flight</button>
+                        <button class="tab-btn" onclick="switchTab('train', this)">Train</button>
+                        <button class="tab-btn" onclick="switchTab('bus', this)">Bus</button>
+                        <button class="tab-btn" onclick="switchTab('hotel', this)">Hotel</button>
+                        <button class="tab-btn" onclick="switchTab('activity', this)">Activity</button>
+                    </div>
+
+                    <div id="flightTab" class="tab-content active">
+                        <h3>Add Flight</h3>
+                        <form id="addFlightForm" onsubmit="addToPackage(event, 'Flight')">
+                            <div class="form-group">
+                                <label for="customFlightOrigin">From</label>
+                                <input type="text" id="customFlightOrigin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customFlightDestination">To</label>
+                                <input type="text" id="customFlightDestination" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customFlightDate">Date</label>
+                                <input type="date" id="customFlightDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search & Add</button>
+                        </form>
+                    </div>
+
+                    <div id="trainTab" class="tab-content">
+                        <h3>Add Train</h3>
+                        <form id="addTrainForm" onsubmit="addToPackage(event, 'Train')">
+                            <div class="form-group">
+                                <label for="customTrainOrigin">From</label>
+                                <input type="text" id="customTrainOrigin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customTrainDestination">To</label>
+                                <input type="text" id="customTrainDestination" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customTrainDate">Date</label>
+                                <input type="date" id="customTrainDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search & Add</button>
+                        </form>
+                    </div>
+
+                    <div id="busTab" class="tab-content">
+                        <h3>Add Bus</h3>
+                        <form id="addBusForm" onsubmit="addToPackage(event, 'Bus')">
+                            <div class="form-group">
+                                <label for="customBusOrigin">From</label>
+                                <input type="text" id="customBusOrigin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customBusDestination">To</label>
+                                <input type="text" id="customBusDestination" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customBusDate">Date</label>
+                                <input type="date" id="customBusDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search & Add</button>
+                        </form>
+                    </div>
+
+                    <div id="hotelTab" class="tab-content">
+                        <h3>Add Hotel</h3>
+                        <form id="addHotelForm" onsubmit="addToPackage(event, 'Hotel')">
+                            <div class="form-group">
+                                <label for="customHotelLocation">Location</label>
+                                <input type="text" id="customHotelLocation" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customHotelCheckIn">Check-in</label>
+                                <input type="date" id="customHotelCheckIn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customHotelCheckOut">Check-out</label>
+                                <input type="date" id="customHotelCheckOut" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search & Add</button>
+                        </form>
+                    </div>
+
+                    <div id="activityTab" class="tab-content">
+                        <h3>Add Activity</h3>
+                        <form id="addActivityForm" onsubmit="addToPackage(event, 'Activity')">
+                            <div class="form-group">
+                                <label for="customActivityLocation">Location</label>
+                                <input type="text" id="customActivityLocation" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customActivityDate">Date</label>
+                                <input type="date" id="customActivityDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search & Add</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="package-summary">
+                    <h3>Your Custom Package</h3>
+                    <div id="packageItems" class="package-items">
+                        <p class="empty-message">No items added yet. Start building your package!</p>
+                    </div>
+                    <div class="package-total">
+                        <div class="total-row">
+                            <span>Total:</span>
+                            <span id="packageTotal">₹0</span>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="bookCustomPackage()" disabled id="bookPackageBtn">Book Package</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/custom-package.js"></script>
+</body>
+</html>

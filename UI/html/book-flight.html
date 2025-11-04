@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Flight - Travel Booking System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>✈️ TravelEase</h1>
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </nav>
+        </header>
+
+        <main class="page-content">
+            <div class="page-header">
+                <h2>Book Flight</h2>
+            </div>
+
+            <div class="search-section">
+                <form id="flightSearchForm" onsubmit="searchFlights(event)">
+                    <div class="search-grid">
+                        <div class="form-group">
+                            <label for="flightOrigin">From</label>
+                            <input type="text" id="flightOrigin" placeholder="City" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flightDestination">To</label>
+                            <input type="text" id="flightDestination" placeholder="City" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flightDepartureDate">Departure Date</label>
+                            <input type="date" id="flightDepartureDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flightPassengers">Passengers</label>
+                            <input type="number" id="flightPassengers" min="1" value="1" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Search Flights</button>
+                </form>
+            </div>
+
+            <div class="results-section" id="flightResults">
+                <!-- Flight results will be displayed here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/bookings.js"></script>
+</body>
+</html>
