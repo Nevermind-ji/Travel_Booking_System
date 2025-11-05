@@ -1,5 +1,5 @@
 CREATE OR REPLACE VIEW insights_view AS
-SELECT 
+SELECT
     l.location_id,
     l.city,
     s.season,
@@ -12,8 +12,12 @@ SELECT
     p.popularity_score,
     p.rating AS package_rating
 FROM locations l
-LEFT JOIN seasonal_data s ON l.location_id = s.location_id
-LEFT JOIN packages p ON p.location_id = l.location_id;
+JOIN seasonal_data s ON l.location_id = s.location_id
+LEFT JOIN package_details pd 
+    ON pd.service_type = 'Activity' AND pd.service_ref_id = l.location_id
+LEFT JOIN packages p 
+    ON pd.package_id = p.package_id;
+
 
 
 CREATE OR REPLACE VIEW available_services_view AS
@@ -57,11 +61,11 @@ SELECT
     b.service_type,
     b.service_id,
     b.status,
-    b.price,
+    b.total_cost AS price,  -- ✅ use total_cost here
     p.payment_id,
     p.amount,
     p.status AS payment_status,
-    p.payment_method,
+    p.method AS payment_method,
     p.payment_date,
     CASE 
         WHEN b.service_type = 'Flight' THEN f.flight_no
@@ -86,6 +90,7 @@ LEFT JOIN activities a ON b.service_id = a.activity_id;
 
 
 
+
 CREATE OR REPLACE VIEW package_services_view AS
 SELECT 
     p.package_id,
@@ -99,13 +104,23 @@ SELECT
         WHEN pd.service_type = 'Train' THEN t.train_no
         WHEN pd.service_type = 'Activity' THEN a.name
     END AS service_name,
-    pd.service_price
+    CASE
+        WHEN pd.service_type = 'Flight' THEN ft.price
+        WHEN pd.service_type = 'Train' THEN tt.price
+        WHEN pd.service_type = 'Bus' THEN bt.price
+        WHEN pd.service_type = 'Hotel' THEN ht.price_per_night
+        WHEN pd.service_type = 'Activity' THEN a.price
+    END AS service_price
 FROM packages p
 JOIN package_details pd ON p.package_id = pd.package_id
 LEFT JOIN flights f ON pd.service_ref_id = f.flight_id
-LEFT JOIN hotels h ON pd.service_ref_id = h.hotel_id
-LEFT JOIN buses b ON pd.service_ref_id = b.bus_id
+LEFT JOIN flight_tiers ft ON f.flight_id = ft.flight_id
 LEFT JOIN trains t ON pd.service_ref_id = t.train_id
+LEFT JOIN train_tiers tt ON t.train_id = tt.train_id
+LEFT JOIN buses b ON pd.service_ref_id = b.bus_id
+LEFT JOIN bus_tiers bt ON b.bus_id = bt.bus_id
+LEFT JOIN hotels h ON pd.service_ref_id = h.hotel_id
+LEFT JOIN hotel_tiers ht ON h.hotel_id = ht.hotel_id
 LEFT JOIN activities a ON pd.service_ref_id = a.activity_id;
 
 
@@ -119,8 +134,9 @@ SELECT
     u.user_id,
     u.name,
     COUNT(b.booking_id) AS total_bookings,
-    SUM(b.price) AS total_spent
+    SUM(b.total_cost) AS total_spent
 FROM users u
 LEFT JOIN bookings b ON u.user_id = b.user_id
 GROUP BY u.user_id
 ORDER BY total_bookings DESC;
+
