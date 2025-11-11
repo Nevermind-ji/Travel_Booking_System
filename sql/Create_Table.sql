@@ -14,7 +14,7 @@ CREATE TABLE users (
     CONSTRAINT fk_user_membership FOREIGN KEY (membership_id) REFERENCES memberships(membership_id)
 );
 
-CREATE TABLE groups (
+CREATE TABLE user_groups (
     group_id INT AUTO_INCREMENT PRIMARY KEY,
     createdByUserID INT NOT NULL,
     CONSTRAINT fk_group_user FOREIGN KEY (createdByUserID) REFERENCES users(user_id)
@@ -51,18 +51,6 @@ CREATE TABLE flight_tiers (
     CONSTRAINT fk_flighttier_flight FOREIGN KEY (flight_id) REFERENCES flights(flight_id)
 );
 
-CREATE TABLE trains (
-    train_id INT AUTO_INCREMENT PRIMARY KEY,
-    train_no VARCHAR(20) UNIQUE NOT NULL,
-    origin_id INT NOT NULL,
-    destination_id INT NOT NULL,
-    departure_time DATETIME NOT NULL,
-    arrival_time DATETIME NOT NULL,
-    total_seats INT NOT NULL CHECK (total_seats > 0),
-    rating DECIMAL(3,2) DEFAULT 0.0,
-    CONSTRAINT fk_train_origin FOREIGN KEY (origin_id) REFERENCES locations(location_id),
-    CONSTRAINT fk_train_destination FOREIGN KEY (destination_id) REFERENCES locations(location_id)
-);
 
 CREATE TABLE train_tiers (
     train_tier_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -168,7 +156,7 @@ CREATE TABLE co_travelers (
     gender ENUM('M','F','Other'),
     id_proof VARCHAR(50),
     CONSTRAINT fk_cotraveler_booking FOREIGN KEY (booking_id) REFERENCES bookings(booking_id),
-    CONSTRAINT fk_cotraveler_group FOREIGN KEY (groupID) REFERENCES groups(group_id)
+    CONSTRAINT fk_cotraveler_group FOREIGN KEY (groupID) REFERENCES user_groups(group_id)
 );
 
 CREATE TABLE payments (

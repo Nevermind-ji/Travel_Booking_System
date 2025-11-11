@@ -1,4 +1,23 @@
 USE travel_booking;
+DROP TRIGGER IF EXISTS validate_user_insert;
+DROP TRIGGER IF EXISTS validate_price_positive_flights;
+DROP TRIGGER IF EXISTS validate_price_positive_hotels;
+DROP TRIGGER IF EXISTS validate_price_positive_trains;
+DROP TRIGGER IF EXISTS validate_price_positive_buses;
+DROP TRIGGER IF EXISTS validate_price_positive_activities;
+DROP TRIGGER IF EXISTS prevent_null_foreign_keys;
+DROP TRIGGER IF EXISTS check_availability_before_booking;
+DROP TRIGGER IF EXISTS update_availability_after_booking;
+DROP TRIGGER IF EXISTS restore_availability_on_cancel;
+DROP TRIGGER IF EXISTS update_service_avg_rating;
+DROP TRIGGER IF EXISTS update_seasonal_avg_after_booking;
+DROP TRIGGER IF EXISTS update_package_popularity;
+DROP TRIGGER IF EXISTS prevent_booking_without_payment;
+DROP TRIGGER IF EXISTS validate_payment_status;
+DROP TRIGGER IF EXISTS log_booking_activity;
+DROP TRIGGER IF EXISTS log_booking_update;
+DROP TRIGGER IF EXISTS cleanup_expired_temp_packages;
+
 DELIMITER $$
 
 /* ============================================================
@@ -212,7 +231,7 @@ BEGIN
 
     UPDATE seasonal_data
     SET booking_count = booking_count + 1,
-        avg_booking_price = (avg_booking_price * (booking_count - 1) + NEW.price) / booking_count
+        avg_booking_price = (avg_booking_price * (booking_count - 1) + NEW.total_cost) / booking_count
     WHERE location_id = loc_id AND season = current_season;
 END$$
 
@@ -293,7 +312,7 @@ CREATE TRIGGER cleanup_expired_temp_packages
 AFTER INSERT ON temp_package
 FOR EACH ROW
 BEGIN
-    DELETE FROM temp_package WHERE created_at < NOW() - INTERVAL 1 DAY;
+    DELETE FROM temp_package WHERE added_on_Date < NOW() - INTERVAL 1 DAY;
 END$$
 
 DELIMITER ;
