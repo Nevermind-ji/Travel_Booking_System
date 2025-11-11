@@ -132,6 +132,14 @@ function bookPackage(packageId, price) {
         return;
     }
 
+    // Calculate discount
+    let discount = 0;
+    if (user.membership) {
+        discount = user.membership.discount || 0;
+    }
+    const discountAmount = (price * discount) / 100;
+    const finalPrice = price - discountAmount;
+
     const booking = {
         bookingId: Date.now(),
         userId: user.userId,
@@ -139,17 +147,28 @@ function bookPackage(packageId, price) {
         serviceType: 'Package',
         serviceId: packageId,
         price: price,
+        basePrice: price,
+        discount: discount,
+        discountAmount: discountAmount,
+        totalCost: finalPrice,
         bookingDate: new Date().toISOString(),
-        status: 'Confirmed',
+        status: 'Pending Payment',
         ticketNumber: 'PKG' + Date.now(),
         packageName: pkg.name
     };
 
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.push(booking);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
+    // Show payment modal
+    showPaymentModal(booking, function(payment, bookingData) {
+        // Update booking status after payment
+        booking.status = 'Confirmed';
+        booking.paymentId = payment.paymentId;
+        
+        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        bookings.push(booking);
+        localStorage.setItem('bookings', JSON.stringify(bookings));
 
-    alert(`Package booked successfully! Ticket Number: ${booking.ticketNumber}`);
-    window.location.href = 'my-bookings.html';
+        alert(`Package booked successfully! Ticket Number: ${booking.ticketNumber}`);
+        window.location.href = 'my-bookings.html';
+    });
 }
 

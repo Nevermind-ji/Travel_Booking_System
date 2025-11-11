@@ -86,7 +86,12 @@ function renderBookings(bookings) {
                         </div>
                     ` : ''}
                     <div class="result-detail-item">
-                        <strong>Total Cost:</strong> ₹${booking.price.toLocaleString()}
+                        <strong>Total Cost:</strong> ₹${(booking.totalCost || booking.price).toLocaleString()}
+                        ${booking.discount && booking.discount > 0 ? `
+                            <span style="color: #28a745; font-size: 0.85rem; margin-left: 10px;">
+                                (${booking.discount}% discount applied)
+                            </span>
+                        ` : ''}
                     </div>
                     ${booking.isCustomPackage ? `
                         <div class="result-detail-item">

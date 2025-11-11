@@ -71,6 +71,15 @@
                         <label for="signupPassword">Password</label>
                         <input type="password" id="signupPassword" required>
                     </div>
+                    <div class="form-group">
+                        <label for="signupMembership">Membership Tier</label>
+                        <select id="signupMembership" required>
+                            <option value="1">Basic (0% discount)</option>
+                            <option value="2">Silver (5% discount)</option>
+                            <option value="3">Gold (10% discount)</option>
+                            <option value="4">Platinum (15% discount)</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                     <p class="form-footer">Already have an account? <a href="#" onclick="switchToLogin()">Login</a></p>
                 </form>

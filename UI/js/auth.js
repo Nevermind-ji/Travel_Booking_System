@@ -50,11 +50,20 @@ function handleLogin(event) {
     const user = users.find(u => u.email === email && u.password === password);
 
     if (user) {
+        const membershipTiers = {
+            1: { name: 'Basic', discount: 0 },
+            2: { name: 'Silver', discount: 5 },
+            3: { name: 'Gold', discount: 10 },
+            4: { name: 'Platinum', discount: 15 }
+        };
+        
         const currentUser = {
             userId: user.userId,
             name: user.name,
             email: user.email,
-            phone: user.phone
+            phone: user.phone,
+            membershipId: user.membershipId || 1,
+            membership: user.membership || membershipTiers[user.membershipId || 1]
         };
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         closeModal('loginModal');
@@ -71,6 +80,19 @@ function handleSignup(event) {
     const email = document.getElementById('signupEmail').value;
     const phone = document.getElementById('signupPhone').value;
     const password = document.getElementById('signupPassword').value;
+    const membershipId = parseInt(document.getElementById('signupMembership').value);
+
+    // Validate email format
+    if (!email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address');
+        return;
+    }
+
+    // Validate phone
+    if (phone.length < 10) {
+        alert('Phone number must be at least 10 digits');
+        return;
+    }
 
     // Simulate signup - in real app, this would be an API call
     const users = JSON.parse(localStorage.getItem('users') || '[]');
@@ -81,12 +103,21 @@ function handleSignup(event) {
         return;
     }
 
+    const membershipTiers = {
+        1: { name: 'Basic', discount: 0 },
+        2: { name: 'Silver', discount: 5 },
+        3: { name: 'Gold', discount: 10 },
+        4: { name: 'Platinum', discount: 15 }
+    };
+
     const newUser = {
         userId: Date.now(),
         name: name,
         email: email,
         phone: phone,
-        password: password
+        password: password,
+        membershipId: membershipId,
+        membership: membershipTiers[membershipId]
     };
 
     users.push(newUser);
@@ -96,7 +127,9 @@ function handleSignup(event) {
         userId: newUser.userId,
         name: newUser.name,
         email: newUser.email,
-        phone: newUser.phone
+        phone: newUser.phone,
+        membershipId: newUser.membershipId,
+        membership: newUser.membership
     };
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     

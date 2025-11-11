@@ -153,34 +153,63 @@ function bookCustomPackage() {
         return;
     }
 
-    const total = packageItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-    // Create bookings for each item
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const baseTotal = packageItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
     
-    packageItems.forEach(item => {
-        const booking = {
-            bookingId: Date.now() + Math.random(),
-            userId: user.userId,
-            serviceType: item.serviceType,
-            serviceId: item.serviceId,
-            tier: item.tier,
-            price: item.price * item.qty,
-            bookingDate: new Date().toISOString(),
-            status: 'Confirmed',
-            ticketNumber: 'CUST' + Date.now() + Math.random(),
-            isCustomPackage: true
-        };
-        bookings.push(booking);
+    // Calculate discount
+    let discount = 0;
+    if (user.membership) {
+        discount = user.membership.discount || 0;
+    }
+    const discountAmount = (baseTotal * discount) / 100;
+    const finalTotal = baseTotal - discountAmount;
+
+    const bookingData = {
+        bookingId: Date.now(),
+        userId: user.userId,
+        serviceType: 'Package',
+        packageItems: packageItems,
+        price: baseTotal,
+        basePrice: baseTotal,
+        discount: discount,
+        discountAmount: discountAmount,
+        total: finalTotal,
+        isCustomPackage: true
+    };
+
+    // Show payment modal
+    showPaymentModal(bookingData, function(payment, bookingData) {
+        // Create bookings for each item
+        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        
+        bookingData.packageItems.forEach(item => {
+            const booking = {
+                bookingId: Date.now() + Math.random(),
+                userId: user.userId,
+                serviceType: item.serviceType,
+                serviceId: item.serviceId,
+                tier: item.tier,
+                price: item.price * item.qty,
+                basePrice: item.price * item.qty,
+                discount: discount,
+                discountAmount: (item.price * item.qty * discount) / 100,
+                totalCost: (item.price * item.qty) - ((item.price * item.qty * discount) / 100),
+                bookingDate: new Date().toISOString(),
+                status: 'Confirmed',
+                ticketNumber: 'CUST' + Date.now() + Math.random(),
+                isCustomPackage: true,
+                paymentId: payment.paymentId
+            };
+            bookings.push(booking);
+        });
+
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        
+        // Clear temp package
+        packageItems = [];
+        localStorage.removeItem('tempPackage');
+        
+        alert(`Custom package booked successfully! Total: ₹${finalTotal.toLocaleString()}`);
+        window.location.href = 'my-bookings.html';
     });
-
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-    
-    // Clear temp package
-    packageItems = [];
-    localStorage.removeItem('tempPackage');
-    
-    alert(`Custom package booked successfully! Total: ₹${total.toLocaleString()}`);
-    window.location.href = 'my-bookings.html';
 }
 

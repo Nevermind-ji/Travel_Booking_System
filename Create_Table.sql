@@ -64,19 +64,6 @@ CREATE TABLE trains (
     CONSTRAINT fk_train_destination FOREIGN KEY (destination_id) REFERENCES locations(location_id)
 );
 
-CREATE TABLE trains (
-    train_id INT AUTO_INCREMENT PRIMARY KEY,
-    train_no VARCHAR(20) UNIQUE NOT NULL,
-    origin_id INT NOT NULL,
-    destination_id INT NOT NULL,
-    departure_time DATETIME NOT NULL,
-    arrival_time DATETIME NOT NULL,
-    total_seats INT NOT NULL CHECK (total_seats > 0),
-    rating DECIMAL(3,2) DEFAULT 0.0,
-    CONSTRAINT fk_train_origin FOREIGN KEY (origin_id) REFERENCES locations(location_id),
-    CONSTRAINT fk_train_destination FOREIGN KEY (destination_id) REFERENCES locations(location_id)
-);
-
 CREATE TABLE train_tiers (
     train_tier_id INT AUTO_INCREMENT PRIMARY KEY,
     train_id INT NOT NULL,
